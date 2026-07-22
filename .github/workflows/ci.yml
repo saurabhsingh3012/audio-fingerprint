@@ -1,0 +1,40 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  lint-test-evaluate:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.10", "3.11", "3.12"]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e ".[dev]"
+
+      - name: Lint (ruff)
+        run: ruff check .
+
+      - name: Unit tests (pytest)
+        run: pytest -q
+
+      # The evaluation is part of CI on purpose: it is the project's deliverable,
+      # and a change that quietly breaks retrieval should fail the build even if
+      # every unit test still passes. --quick keeps it to a CI-appropriate size.
+      - name: Evaluation smoke run
+        run: python tests/evaluate.py --quick
