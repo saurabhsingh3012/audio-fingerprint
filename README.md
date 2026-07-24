@@ -234,7 +234,7 @@ AAC/Opus or an actual phone microphone; those remain open.
 ### False accepts
 
 36 impostor queries drawn from the 12 never-indexed tracks (mixed degradation
-including MP3 64 kbps). Genuine queries pooled across all sweeps (1,512 queries).
+including MP3 64 kbps). Genuine queries pooled across all sweeps (1,368 queries).
 
 | statistic                 | synthetic | real |
 |---------------------------|----------:|-----:|
