@@ -27,6 +27,15 @@ dev = [
     "pytest>=7.4",
     "ruff>=0.4",
 ]
+# Extras for the REAL-audio corpus and evaluation only (tests/evaluate_real.py,
+# src/audio_fingerprint/corpus.py). Not needed for the synthetic pipeline, its
+# tests, or CI — which is why librosa/soundfile are imported lazily and kept out
+# of the core dependencies. Also requires an `ffmpeg` binary on PATH for the MP3
+# codec round-trip.
+real = [
+    "librosa>=0.10",
+    "soundfile>=0.12",
+]
 
 [project.urls]
 Homepage = "https://github.com/saurabhsingh3012/audio-fingerprint"

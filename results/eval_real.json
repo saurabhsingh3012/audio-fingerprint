@@ -1,0 +1,390 @@
+{
+  "corpus": {
+    "source": "archive.org netlabels (Creative Commons)",
+    "n_reference": 36,
+    "n_impostors": 12,
+    "reference_audio_minutes": 90.6
+  },
+  "config": {
+    "queries_per_track": 2,
+    "seed": 2024,
+    "quick": false,
+    "sample_rate": 11025,
+    "n_fft": 1024,
+    "hop_length": 256,
+    "target_density": 30.0,
+    "fan_out": 8,
+    "freq_quant": 1
+  },
+  "index_stats": {
+    "n_tracks": 36,
+    "n_distinct_hashes": 445398,
+    "n_postings": 1153980,
+    "mean_posting_length": 2.590896232133957,
+    "max_posting_length": 197,
+    "hash_collision_ratio": 2.590896232133957
+  },
+  "snr_sweep": [
+    {
+      "axis": "snr",
+      "label": "+20 dB",
+      "n_queries": 72,
+      "top1_accuracy": 1.0,
+      "mrr": 1.0,
+      "median_score": 352.0,
+      "median_true_score": 352.0
+    },
+    {
+      "axis": "snr",
+      "label": "+10 dB",
+      "n_queries": 72,
+      "top1_accuracy": 1.0,
+      "mrr": 1.0,
+      "median_score": 215.5,
+      "median_true_score": 215.5
+    },
+    {
+      "axis": "snr",
+      "label": "+5 dB",
+      "n_queries": 72,
+      "top1_accuracy": 0.9861111111111112,
+      "mrr": 0.9861111111111112,
+      "median_score": 150.5,
+      "median_true_score": 150.5
+    },
+    {
+      "axis": "snr",
+      "label": "+0 dB",
+      "n_queries": 72,
+      "top1_accuracy": 1.0,
+      "mrr": 1.0,
+      "median_score": 87.5,
+      "median_true_score": 87.5
+    },
+    {
+      "axis": "snr",
+      "label": "-5 dB",
+      "n_queries": 72,
+      "top1_accuracy": 0.9722222222222222,
+      "mrr": 0.9791666666666666,
+      "median_score": 32.0,
+      "median_true_score": 32.0
+    }
+  ],
+  "excerpt_sweep": [
+    {
+      "axis": "excerpt",
+      "label": "1 s",
+      "n_queries": 72,
+      "top1_accuracy": 0.9861111111111112,
+      "mrr": 0.9930555555555556,
+      "median_score": 34.5,
+      "median_true_score": 34.5
+    },
+    {
+      "axis": "excerpt",
+      "label": "2 s",
+      "n_queries": 72,
+      "top1_accuracy": 1.0,
+      "mrr": 1.0,
+      "median_score": 85.0,
+      "median_true_score": 85.0
+    },
+    {
+      "axis": "excerpt",
+      "label": "3 s",
+      "n_queries": 72,
+      "top1_accuracy": 0.9722222222222222,
+      "mrr": 0.9861111111111112,
+      "median_score": 121.0,
+      "median_true_score": 121.0
+    },
+    {
+      "axis": "excerpt",
+      "label": "5 s",
+      "n_queries": 72,
+      "top1_accuracy": 1.0,
+      "mrr": 1.0,
+      "median_score": 235.0,
+      "median_true_score": 235.0
+    },
+    {
+      "axis": "excerpt",
+      "label": "10 s",
+      "n_queries": 72,
+      "top1_accuracy": 1.0,
+      "mrr": 1.0,
+      "median_score": 492.5,
+      "median_true_score": 492.5
+    }
+  ],
+  "bandlimit_sweep": [
+    {
+      "axis": "band",
+      "label": "full band",
+      "n_queries": 72,
+      "top1_accuracy": 1.0,
+      "mrr": 1.0,
+      "median_score": 289.5,
+      "median_true_score": 289.5
+    },
+    {
+      "axis": "band",
+      "label": "telephone 300-3400",
+      "n_queries": 72,
+      "top1_accuracy": 1.0,
+      "mrr": 1.0,
+      "median_score": 208.5,
+      "median_true_score": 208.5
+    },
+    {
+      "axis": "band",
+      "label": "highpass 500",
+      "n_queries": 72,
+      "top1_accuracy": 1.0,
+      "mrr": 1.0,
+      "median_score": 191.0,
+      "median_true_score": 191.0
+    },
+    {
+      "axis": "band",
+      "label": "lowpass 2000",
+      "n_queries": 72,
+      "top1_accuracy": 1.0,
+      "mrr": 1.0,
+      "median_score": 246.0,
+      "median_true_score": 246.0
+    }
+  ],
+  "codec_sweep": [
+    {
+      "axis": "codec",
+      "label": "no codec",
+      "n_queries": 72,
+      "top1_accuracy": 1.0,
+      "mrr": 1.0,
+      "median_score": 229.0,
+      "median_true_score": 229.0
+    },
+    {
+      "axis": "codec",
+      "label": "mp3 128k",
+      "n_queries": 72,
+      "top1_accuracy": 1.0,
+      "mrr": 1.0,
+      "median_score": 257.0,
+      "median_true_score": 257.0
+    },
+    {
+      "axis": "codec",
+      "label": "mp3 64k",
+      "n_queries": 72,
+      "top1_accuracy": 1.0,
+      "mrr": 1.0,
+      "median_score": 262.0,
+      "median_true_score": 262.0
+    },
+    {
+      "axis": "codec",
+      "label": "mp3 48k",
+      "n_queries": 72,
+      "top1_accuracy": 1.0,
+      "mrr": 1.0,
+      "median_score": 214.0,
+      "median_true_score": 214.0
+    },
+    {
+      "axis": "codec",
+      "label": "mp3 32k",
+      "n_queries": 72,
+      "top1_accuracy": 1.0,
+      "mrr": 1.0,
+      "median_score": 202.0,
+      "median_true_score": 202.0
+    }
+  ],
+  "freq_quant_comparison": [
+    {
+      "freq_quant": 1,
+      "n_queries": 72,
+      "top1_accuracy": 1.0,
+      "n_distinct_hashes": 445398
+    },
+    {
+      "freq_quant": 2,
+      "n_queries": 72,
+      "top1_accuracy": 1.0,
+      "n_distinct_hashes": 248639
+    }
+  ],
+  "threshold_table": [
+    {
+      "threshold": 0,
+      "true_accept_rate": 0.9956,
+      "false_accept_rate": 1.0
+    },
+    {
+      "threshold": 2,
+      "true_accept_rate": 0.9956,
+      "false_accept_rate": 1.0
+    },
+    {
+      "threshold": 4,
+      "true_accept_rate": 0.9956,
+      "false_accept_rate": 0.9722
+    },
+    {
+      "threshold": 6,
+      "true_accept_rate": 0.9949,
+      "false_accept_rate": 0.6389
+    },
+    {
+      "threshold": 8,
+      "true_accept_rate": 0.989,
+      "false_accept_rate": 0.1667
+    },
+    {
+      "threshold": 10,
+      "true_accept_rate": 0.9861,
+      "false_accept_rate": 0.0833
+    },
+    {
+      "threshold": 12,
+      "true_accept_rate": 0.9817,
+      "false_accept_rate": 0.0
+    },
+    {
+      "threshold": 14,
+      "true_accept_rate": 0.9788,
+      "false_accept_rate": 0.0
+    },
+    {
+      "threshold": 16,
+      "true_accept_rate": 0.9759,
+      "false_accept_rate": 0.0
+    },
+    {
+      "threshold": 18,
+      "true_accept_rate": 0.9722,
+      "false_accept_rate": 0.0
+    },
+    {
+      "threshold": 20,
+      "true_accept_rate": 0.9656,
+      "false_accept_rate": 0.0
+    },
+    {
+      "threshold": 22,
+      "true_accept_rate": 0.9591,
+      "false_accept_rate": 0.0
+    },
+    {
+      "threshold": 24,
+      "true_accept_rate": 0.9525,
+      "false_accept_rate": 0.0
+    },
+    {
+      "threshold": 26,
+      "true_accept_rate": 0.9481,
+      "false_accept_rate": 0.0
+    },
+    {
+      "threshold": 28,
+      "true_accept_rate": 0.9379,
+      "false_accept_rate": 0.0
+    },
+    {
+      "threshold": 30,
+      "true_accept_rate": 0.9298,
+      "false_accept_rate": 0.0
+    },
+    {
+      "threshold": 32,
+      "true_accept_rate": 0.924,
+      "false_accept_rate": 0.0
+    },
+    {
+      "threshold": 34,
+      "true_accept_rate": 0.9174,
+      "false_accept_rate": 0.0
+    },
+    {
+      "threshold": 36,
+      "true_accept_rate": 0.9079,
+      "false_accept_rate": 0.0
+    },
+    {
+      "threshold": 38,
+      "true_accept_rate": 0.9042,
+      "false_accept_rate": 0.0
+    },
+    {
+      "threshold": 40,
+      "true_accept_rate": 0.8991,
+      "false_accept_rate": 0.0
+    },
+    {
+      "threshold": 42,
+      "true_accept_rate": 0.8933,
+      "false_accept_rate": 0.0
+    },
+    {
+      "threshold": 44,
+      "true_accept_rate": 0.8896,
+      "false_accept_rate": 0.0
+    },
+    {
+      "threshold": 46,
+      "true_accept_rate": 0.8838,
+      "false_accept_rate": 0.0
+    },
+    {
+      "threshold": 48,
+      "true_accept_rate": 0.8808,
+      "false_accept_rate": 0.0
+    },
+    {
+      "threshold": 50,
+      "true_accept_rate": 0.8713,
+      "false_accept_rate": 0.0
+    },
+    {
+      "threshold": 52,
+      "true_accept_rate": 0.8662,
+      "false_accept_rate": 0.0
+    },
+    {
+      "threshold": 54,
+      "true_accept_rate": 0.8618,
+      "false_accept_rate": 0.0
+    },
+    {
+      "threshold": 56,
+      "true_accept_rate": 0.8582,
+      "false_accept_rate": 0.0
+    },
+    {
+      "threshold": 58,
+      "true_accept_rate": 0.8531,
+      "false_accept_rate": 0.0
+    },
+    {
+      "threshold": 60,
+      "true_accept_rate": 0.8494,
+      "false_accept_rate": 0.0
+    }
+  ],
+  "operating_point": {
+    "threshold": 12,
+    "true_accept_rate": 0.9817,
+    "false_accept_rate": 0.0,
+    "policy": "lowest threshold with FAR <= 1%"
+  },
+  "impostor_summary": {
+    "n_impostor_queries": 36,
+    "max_score": 10.0,
+    "p95_score": 10.0,
+    "median_score": 6.0
+  },
+  "runtime_seconds": 261.3800274269888
+}

@@ -6,10 +6,15 @@ whole story of whether this is a portfolio toy or the start of something usable.
 
 ## The one thing to keep in mind
 
-**The corpus is SYNTHETIC.** Every reported number describes retrieval of
-procedurally generated tone sequences, not music. It is an upper bound on real
-performance. Nothing below should be read as "this works on real audio" — it has
-never seen real audio.
+**The default corpus is SYNTHETIC**, and its numbers characterise the algorithm,
+not real-world accuracy. There is now **also a real Creative-Commons music
+corpus** (36 indexed + 12 impostor tracks; see the README's "Real audio" section
+and `results/eval_real.json`). Its surprising result — real music is *not* harder
+than synthetic tones for **same-recording** identification — is written up in the
+decision doc. The honest remaining gap is no longer "synthetic vs real"; it is
+**same-recording vs cross-recording** (covers/live/re-records) and **scale**,
+neither of which either evaluation tests. Read nothing here as a claim about
+cross-recording matching or million-track corpora.
 
 ---
 
@@ -40,14 +45,16 @@ never seen real audio.
 
 Ordered by how much each would change the honesty of the results.
 
-### 1. Real audio (this is the whole ballgame)
-Everything else is secondary to replacing synthetic tones with real recordings.
-Concretely: build a loader for a public, license-clean corpus (e.g. the
-FMA-small free-music archive, or one's own vinyl rips), fingerprint it, and
-re-run the exact same evaluation. **Expect the numbers to fall**, and expect the
-*ranking* of some design decisions to change (see below). Until this is done, the
-accuracy figures are a characterisation of the algorithm, not a claim about the
-world.
+### 1. Real audio — DONE (and it did not go as predicted)
+Built `src/audio_fingerprint/corpus.py` (Internet Archive `netlabels`,
+CC-licensed, attributed in `DATA_SOURCES.md`) and `tests/evaluate_real.py`, and
+re-ran the identical harness on 36 real indexed tracks + 12 impostors, plus a new
+MP3 codec round-trip axis. **The numbers did not fall** — top-1 stays at/near
+1.000 across noise to 0 dB, band-limiting, and MP3 to 32 kbps, and *beats*
+synthetic on short excerpts. Reason: this is *same-recording* identification, so
+real music's peak jitter is identical on both sides and its spectral richness
+helps. The open problem is therefore **cross-recording** matching, not real-vs-
+synthetic. Next real steps below (#2–#6) are re-scoped around that.
 
 ### 2. Re-tune every hyperparameter on real audio
 Several defaults were chosen by measurement on synthetic audio and are known to
