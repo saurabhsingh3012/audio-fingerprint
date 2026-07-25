@@ -1,55 +1,56 @@
 # Roadmap
 
-Honest status. What is built and measured, and what is not — with the emphasis on
-the gap between a synthetic evaluation and a real one, because that gap is the
-whole story of whether this is a portfolio toy or the start of something usable.
+Status: what is built and measured, and what is not. The emphasis is on the gap
+between the synthetic and real evaluations, since that gap decides whether this is
+a portfolio toy or the start of something usable.
 
-## The one thing to keep in mind
+## Where the evaluation stands
 
-**The default corpus is SYNTHETIC**, and its numbers characterise the algorithm,
-not real-world accuracy. There is now **also a real Creative-Commons music
-corpus** (36 indexed + 12 impostor tracks; see the README's "Real audio" section
-and `results/eval_real.json`). Its surprising result — real music is *not* harder
-than synthetic tones for **same-recording** identification — is written up in the
-decision doc. The honest remaining gap is no longer "synthetic vs real"; it is
-**same-recording vs cross-recording** (covers/live/re-records) and **scale**,
-neither of which either evaluation tests. Read nothing here as a claim about
-cross-recording matching or million-track corpora.
+The headline evaluation is on a real Creative-Commons music corpus (36 indexed +
+12 impostor tracks; see the README's "Real audio" section and
+`results/eval_real.json`). Its result: for same-recording identification, real
+music is *not* harder than synthetic tones, written up in the decision doc. The
+synthetic corpus of harmonic tones runs the same pipeline as a controlled stress
+test and characterises the algorithm rather than real-world accuracy. The
+remaining gap is no longer "synthetic vs real"; it is same-recording vs
+cross-recording (covers/live/re-records) and scale, neither of which either
+evaluation tests. Read nothing here as a claim about cross-recording matching or
+million-track corpora.
 
 ---
 
 ## Done, and measured
 
-- [x] **STFT front-end from scratch** — own framing, Hann windowing, dB scaling;
+- [x] **STFT front-end from scratch.** Own framing, Hann windowing, dB scaling;
       linear-frequency (not mel) with the reasoning documented. `numpy`/`scipy`
       only, no `librosa`.
-- [x] **Density-controlled peak picking** — local maxima + adaptive local
+- [x] **Density-controlled peak picking.** Local maxima + adaptive local
       threshold + per-(second × frequency-band) quota. Gain-invariant to the bit;
       density held near target across a 80 dB gain range. *Verified.*
-- [x] **Constellation hashing** — anchor + target-zone pairing, `(f1, f2, Δt)`
+- [x] **Constellation hashing.** Anchor + target-zone pairing, `(f1, f2, Δt)`
       packed to int64, deterministic. Fan-out and quantisation chosen by
       measurement. *Verified deterministic.*
-- [x] **Inverted index** — CSR-style flat arrays, vectorised whole-query lookup,
+- [x] **Inverted index.** CSR-style flat arrays, vectorised whole-query lookup,
       `.npz` round-trip without pickle. *Round-trip verified element-by-element.*
-- [x] **Offset-histogram voting** — score = tallest aligned bin, recovers
+- [x] **Offset-histogram voting.** Score = tallest aligned bin, recovers
       alignment, beats a raw-count baseline (0.958 vs 0.729 measured; a
       constructed near-miss test pins the direction).
-- [x] **Evaluation harness** — SNR / excerpt-length / band-limit sweeps, top-1
+- [x] **Evaluation harness.** SNR / excerpt-length / band-limit sweeps, top-1
       accuracy + MRR, plus an impostor set and a threshold/false-accept table.
       Runs in CI (`--quick`).
-- [x] **Tests + CI** — 40 tests; lint + tests + evaluation on 3.10/3.11/3.12.
+- [x] **Tests + CI.** 40 tests; lint + tests + evaluation on 3.10/3.11/3.12.
 
 ---
 
-## Next — the part that actually matters
+## Next, the part that actually matters
 
 Ordered by how much each would change the honesty of the results.
 
-### 1. Real audio — DONE (and it did not go as predicted)
+### 1. Real audio: done (and it did not go as predicted)
 Built `src/audio_fingerprint/corpus.py` (Internet Archive `netlabels`,
 CC-licensed, attributed in `DATA_SOURCES.md`) and `tests/evaluate_real.py`, and
 re-ran the identical harness on 36 real indexed tracks + 12 impostors, plus a new
-MP3 codec round-trip axis. **The numbers did not fall** — top-1 stays at/near
+MP3 codec round-trip axis. The numbers did not fall: top-1 stays at/near
 1.000 across noise to 0 dB, band-limiting, and MP3 to 32 kbps, and *beats*
 synthetic on short excerpts. Reason: this is *same-recording* identification, so
 real music's peak jitter is identical on both sides and its spectral richness
@@ -66,20 +67,21 @@ be data-dependent:
   tolerate. This is the clearest example of a knob a synthetic eval cannot set.
 - **Peak density (30/s)** and **fan-out (8)** may need to rise, because real
   spectral peaks are less repeatable, so more redundancy is needed to hold recall.
-- The **accept threshold** will need re-derivation entirely — real impostor score
-  distributions are wider (real tracks share drum samples, chord loops, mastering
-  chains), so the threshold that gives 0% false accepts here will not there.
+- The **accept threshold** will need re-derivation entirely, because real impostor
+  score distributions are wider (real tracks share drum samples, chord loops,
+  mastering chains), so the threshold that gives 0% false accepts here will not
+  there.
 
 ### 3. Realistic degradations
 The current model covers additive white noise, Butterworth band-limiting,
 cropping, gain, resample-based speed change, and OLA time-stretch. Missing, in
 rough order of importance for a phone/vinyl use case:
-- **MP3/AAC codec round-trip** — codecs quantise in exactly the time-frequency
+- **MP3/AAC codec round-trip.** Codecs quantise in exactly the time-frequency
   domain the fingerprint lives in; this is the single most important missing axis.
-- **Convolutional reverb** (room impulse responses) — smears peaks in time.
-- **Dynamic-range compression** — the one degradation that partly defeats the
+- **Convolutional reverb** (room impulse responses), which smears peaks in time.
+- **Dynamic-range compression.** The one degradation that partly defeats the
   gain-invariance argument, because it is a *non-linear*, level-dependent gain.
-- **Coloured / real-world noise** (café, traffic, crowd) instead of white — this
+- **Coloured / real-world noise** (café, traffic, crowd) instead of white. This
   is actually *easier* for a banded picker than white noise, so adding it would
   make some results look better; worth having for honesty in both directions.
 - **Vinyl-specific**: surface clicks, wow/flutter, RIAA response, groove wear.
@@ -87,7 +89,8 @@ rough order of importance for a phone/vinyl use case:
 ### 4. Phase-vocoder time-stretch
 The current `time_stretch` is plain overlap-add and introduces some phasiness. A
 phase vocoder would be a cleaner model of a broadcast time-compressor. Low
-priority — it preserves partial frequencies, which is what the fingerprint needs.
+priority, since it preserves partial frequencies, which is what the fingerprint
+needs.
 
 ### 5. Scale
 Sixty tracks is not sixty million. False-accept pressure grows with corpus size.
@@ -108,7 +111,7 @@ already returns the offset; this is an application on top, blocked on #1.
   latency, adversarial conditions) and not the point of a portfolio project.
 - A learned/embedding-based fingerprinter (e.g. neural audio embeddings). A
   worthwhile *contrast* project, but this one is deliberately the classical,
-  fully-interpretable landmark approach — every decision is inspectable, which is
-  the pedagogical and interview value.
+  fully-interpretable landmark approach, where every decision is inspectable,
+  which is the pedagogical and interview value.
 - Real-time / streaming identification. The index supports it; the harness does
   not exercise it.
